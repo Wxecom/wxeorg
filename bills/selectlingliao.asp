@@ -149,16 +149,11 @@ End If
 If Request.Form("date2")<>"" Then
     s_date2 = Request.Form("date2")
 End If
-sql = "select distinct '<a href=# onClick=checkbill('''+billcode+''','+convert(varchar(1),[check])+')>审核</a>&nbsp;&nbsp;<a href=# onClick=uncheckbill('''+billcode+''','+convert(varchar(1),[check])+')>反审</a>&nbsp;&nbsp;<a href=# onClick=EditBill('''+billcode+''','+convert(varchar(1),[check])+')>修改</a>&nbsp;&nbsp;<a href=# onClick=del('''+billcode+''','+convert(varchar(1),[check])+')>删除</a>&nbsp;&nbsp;<a href=detail.asp?billcode='+billcode+'>详情</a>' as action,billcode,adddate,custname,depotname,username,memo,case when [check]=1 then '已审核' else '未审核' end as state,checkman from s_billdetail where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '领料出库'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
+sql = "select distinct CONCAT('<a href=# onClick=checkbill(''',billcode+''','+convert(varchar(1),s_billdetail.check)+')>审核</a>&nbsp;&nbsp;<a href=# onClick=uncheckbill(''',billcode+''','+convert(varchar(1),s_billdetail.check)+')>反审</a>&nbsp;&nbsp;<a href=# onClick=EditBill(''',billcode+''','+convert(varchar(1),s_billdetail.check)+')>修改</a>&nbsp;&nbsp;<a href=# onClick=del(''',billcode+''','+convert(varchar(1),s_billdetail.check)+')>删除</a>&nbsp;&nbsp;<a href=detail.asp?billcode='+billcode+'>详情</a>' as action,billcode,adddate,custname,depotname,username,memo,case when s_billdetail.check=1 then '已审核' else '未审核' end as state,checkman from s_billdetail where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '领料出库'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 
 call showpage(sql,"selectlingliao",3)
 %>
 <div id="search_suggest" class="billdetail" style="display: none; position:absolute;"></div>
-</td></tr></table>
-</div>
-</body>
-</html>
-olute;"></div>
 </td></tr></table>
 </div>
 </body>

@@ -150,16 +150,11 @@ End If
 If Request.Form("date2")<>"" Then
     s_date2 = Request.Form("date2")
 End If
-sql = "select distinct '<a href=# onClick=checkbill('''+billcode+''','+convert(varchar(1),[check])+')>ÉóºË</a>&nbsp;&nbsp;<a href=# onClick=uncheckbill('''+billcode+''','+convert(varchar(1),[check])+')>·´Éó</a>&nbsp;&nbsp;<a href=# onClick=EditBill('''+billcode+''','+convert(varchar(1),[check])+')>ĞŞ¸Ä</a>&nbsp;&nbsp;<a href=# onClick=del('''+billcode+''','+convert(varchar(1),[check])+')>É¾³ı</a>&nbsp;&nbsp;<a href=detail.asp?billcode='+billcode+'>ÏêÇé</a>' as action,billcode,adddate,custname,depotname,username,memo,checkman,case when [check]=1 then 'ÒÑÉóºË' else 'Î´ÉóºË' end as state from s_billdetail where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '¿â´æÅÌµã'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
+sql = "select distinct CONCAT('<a href=# onClick=checkbill(''',billcode+''','+convert(varchar(1),s_billdetail.check)+')>ÉóºË</a>&nbsp;&nbsp;<a href=# onClick=uncheckbill(''',billcode+''','+convert(varchar(1),s_billdetail.check)+')>·´Éó</a>&nbsp;&nbsp;<a href=# onClick=EditBill(''',billcode+''','+convert(varchar(1),s_billdetail.check)+')>ĞŞ¸Ä</a>&nbsp;&nbsp;<a href=# onClick=del(''',billcode+''','+convert(varchar(1),s_billdetail.check)+')>É¾³ı</a>&nbsp;&nbsp;<a href=detail.asp?billcode='+billcode+'>ÏêÇé</a>' as action,billcode,adddate,custname,depotname,username,memo,checkman,case when s_billdetail.check=1 then 'ÒÑÉóºË' else 'Î´ÉóºË' end as state from s_billdetail where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '¿â´æÅÌµã'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 
 call showpage(sql,"selectpandian",3)
 %>
 <div id="search_suggest" class="billdetail" style="display: none; position:absolute;"></div>
-</td></tr></table>
-</div>
-</body>
-</html>
-olute;"></div>
 </td></tr></table>
 </div>
 </body>

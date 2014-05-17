@@ -123,7 +123,7 @@ arr = split(rs_depot("depotname"),",")
 		else
 		  sDepotname = ""
 		end if
-sql = "select billcode,custname,depotname,memo,username,adddate,[check],sum(number) as t_num,sum(money) as t_mon,checkman from s_billdetail where billtype='"&s_type &"'"& s_date1 & s_date2 & s_cust & sDepotname &" group by billcode,custname,depotname,memo,username,adddate,[check],checkman"
+sql = "select billcode,custname,depotname,memo,username,adddate,s_billdetail.check,sum(number) as t_num,sum(money) as t_mon,checkman from s_billdetail where billtype='"&s_type &"'"& s_date1 & s_date2 & s_cust & sDepotname &" group by billcode,custname,depotname,memo,username,adddate,s_billdetail.check,checkman"
 
     Set rs = server.CreateObject("adodb.recordset")
     rs.Open sql, conn, 3
@@ -165,8 +165,8 @@ For i = 0 To rs.pagesize -1
 <td onMouseMove="addtext(<%=i+1%>)"><%=rs("custname")%></td>
 <td onMouseMove="addtext(<%=i+1%>)"><%=rs("username")%></td>
 <td>
-	<a href=# onClick="edit('<%=rs("billcode")%>');">ÐÞ¸Ä</a>
-    <a href=# onClick="del('<%=rs("billcode")%>');">É¾³ý</a></td>
+	<a href=# onClick="edit(+<%=rs("billcode")%>+);">ÐÞ¸Ä</a>
+    <a href=# onClick="del(+<%=rs("billcode")%>+);">É¾³ý</a></td>
 <%
 response.Write "</tr>"
 rs.movenext()
@@ -195,8 +195,5 @@ Next
  endconnection
 %>
 <div id="search_suggest" class="billdetail" style="display: none; position:absolute;"></div>
-</body>
-</html>
-v>
 </body>
 </html>

@@ -61,6 +61,7 @@ function checkall(){
 		function(i)
 		{
 			chk = $(this)
+			
 			if(chk.attr("checked") == true){
 				iCount = iCount + 1;
 			}

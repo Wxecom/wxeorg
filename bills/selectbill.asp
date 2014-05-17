@@ -61,7 +61,8 @@ function delall(){
 		$("._del").each( 
 			function(i)
 			{
-				chk = $(this)
+				chk = $(this);
+				
 				if(chk.attr("checked") == true){
 					$.post("../select/delallbill.asp",{billcode:escape(chk.val())},
 					function(data)
@@ -94,7 +95,7 @@ function checkall(){
 	$("._del").each(
 		function(i)
 		{
-			chk = $(this)
+			chk = $(this);
 			if(chk.attr("checked") == true){
 				iCount = iCount + 1;
 			}
@@ -114,6 +115,7 @@ function checkall(){
 					$.post("../select/checkbill.asp",{billcode:escape(chk.val())},
 					function(data)
 					{ 
+					
 						index = index + 1;
 						if(data == "True"){
 							iSucceed = iSucceed + 1;
@@ -336,7 +338,7 @@ end if
 if Request.Form("check") = "" then
 	s_check = ""
 else
-	s_check = " and [check] = " & Request.Form("check")
+	s_check = " and t_billdetail.check = " & Request.Form("check")
 end if
 If Request.Form("date1")<>"" Then
     s_date1 = Request.Form("date1")
@@ -345,23 +347,23 @@ If Request.Form("date2")<>"" Then
     s_date2 = Request.Form("date2")
 End If
 if Request.QueryString("type") = "CG" then
-	sql = "select top 100000 '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,"
+	sql = "select  CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,"
 	sql = sql + "billcode,adddate,custname,depotname,username,memo,zkprice,zdprice,maker,"
-	sql = sql + "case when [check]=1 then '<font color=#0000FF>已审核</font>' else '<font color=#FF0000>未审核</font>' end as state,checkman,"
+	sql = sql + "case when s.check=1 then '<font color=#0000FF>已审核</font>' else '<font color=#FF0000>未审核</font>' end as state,checkman,"
 	sql = sql + "case when billcode in (select planbillcode from t_bill where planbillcode = s.billcode) then '<font color=#0000FF>有退货</font>' else '无退货' end as back,"
-	sql = sql + "isnull((select sum(yfprice) from t_bill where planbillcode = s.billcode),0) as backmoney,"
-	sql = sql + "yfprice - isnull((select sum(yfprice) from t_bill where planbillcode = s.billcode),0) as yfmoney,"
-	sql = sql + "isnull((select sum(money) from t_cash where billcode = s.billcode),0) + pay as cashmoney"
+	sql = sql + "ifnull((select sum(yfprice) from t_bill where planbillcode = s.billcode),0) as backmoney,"
+	sql = sql + "yfprice - ifnull((select sum(yfprice) from t_bill where planbillcode = s.billcode),0) as yfmoney,"
+	sql = sql + "ifnull((select sum(money) from t_cash where billcode = s.billcode),0) + pay as cashmoney"
 	sql = sql + " from t_bill as s where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '采购入库'"&s_cust&s_check&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 	call showpage(sql,"selectcaigou",3)
 ElseIf Request.QueryString("type") = "XS" Then
-	sql = "select top 100000 '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,"
+	sql = "select  CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,"
 	sql = sql + "billcode,adddate,custname,depotname,username,memo,zkprice,zdprice,maker,"
-	sql = sql + "case when [check]=1 then '<font color=#0000FF>已审核</font>' else '<font color=#FF0000>未审核</font>' end as state,checkman,"
+	sql = sql + "case when s.check=1 then '<font color=#0000FF>已审核</font>' else '<font color=#FF0000>未审核</font>' end as state,checkman,"
 	sql = sql + "case when billcode in (select planbillcode from t_bill where planbillcode = s.billcode) then '<font color=#0000FF>有退货</font>' else '无退货' end as back,"
-	sql = sql + "isnull((select sum(yfprice) from t_bill where planbillcode = s.billcode),0) as backmoney,"
-	sql = sql + "yfprice - isnull((select sum(yfprice) from t_bill where planbillcode = s.billcode),0) as yfmoney,"
-	sql = sql + "isnull((select sum(money) from t_cash where billcode = s.billcode),0) + pay as cashmoney"
+	sql = sql + "ifnull((select sum(yfprice) from t_bill where planbillcode = s.billcode),0) as backmoney,"
+	sql = sql + "yfprice - ifnull((select sum(yfprice) from t_bill where planbillcode = s.billcode),0) as yfmoney,"
+	sql = sql + "ifnull((select sum(money) from t_cash where billcode = s.billcode),0) + pay as cashmoney"
 	sql = sql + " from t_bill as s where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '销售出库'"&s_cust&s_check&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 	call showpage(sql,"selectxiaoshou",3)
 end if
@@ -373,4 +375,3 @@ end if
 </table>
 </body>
 </html>
-html>
