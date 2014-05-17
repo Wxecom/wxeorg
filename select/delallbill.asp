@@ -50,10 +50,24 @@ if power = "False" then
 	Response.Write billcode & ":无删除权限"
 else
 	if rsDel("check") = false then
-		delsql = "delete from t_bill where billcode = '" & billcode & "'"
-		Set rs = conn.Execute(delsql)
+	on error resume next
+    conn.BeginTrans   
+
+		delsql = "delete from t_billdetail where billcode = '" & billcode & "'"
+		Set rs1 = conn.Execute(delsql)
 		
-		Response.Write "True"
+		delsql = "delete from t_bill where billcode = '" & billcode & "'"
+		Set rs2 = conn.Execute(delsql)
+		
+		if err <> 0 then        
+			conn.rollbacktrans    
+			Response.Write "False"
+		else                    
+			conn.CommitTrans      
+			Response.Write "True" 
+		end if                  
+
+		
 	else
 		Response.Write billcode & ":不能删除已审核单据"
 	end if
@@ -62,4 +76,4 @@ rsDel.close
 set rsDel = nothing
 Response.End
 'Response.Write s_account
-%>
+%>delete from t_bill where billcode = 'XS-2014-05-17-0002'

@@ -67,6 +67,7 @@ function delall(){
 					$.post("../select/delallbill.asp",{billcode:escape(chk.val())},
 					function(data)
 					{ 
+						
 						index = index + 1;
 						if(data == "True"){
 							iSucceed = iSucceed + 1;
