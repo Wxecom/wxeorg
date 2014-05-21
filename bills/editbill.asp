@@ -104,7 +104,25 @@ function bar(){
 	$("#barcode").val("");
   }
 }
+function getPostArr(){
+	var arr=new Array();
+	$("input[use='post']").each(function(i){
+		arr.push(this.name);
+		});
+		
+		return arr;
+	}
 function check(){
+	var arry=getPostArr();
+	
+	for(x in arry){	
+		var tary=new Array();		
+		$("input[name='"+arry[x]+"'][type!='hidden']").each(function(i){
+			tary.push(this.value);
+			});
+		$("input[use='post'][name='"+arry[x]+"']").val(tary.join(","));		
+		}
+	
 if (document.sample.cust.value=="")
 {
 alert("请选择往来单位！");
@@ -364,6 +382,15 @@ else%>
   <th width=10%>数量</th>
   <th width=10%>金额</th>
   <th width=20%>备注</th>
+  <input name=goodscode type=hidden use="post">
+<input name=goodsname type=hidden use="post">
+<input name=goodsunit type=hidden use="post">
+<input name=units type=hidden use="post">
+<input name=price type=hidden use="post">
+<input name=number type=hidden use="post">
+<input name=money type=hidden use="post">
+<input name=remark type=hidden use="post">
+<input name=aveprice type=hidden use="post">
 </tr>
 <%
 sql = "select * from t_billdetail where billcode='"&rsBill("billcode")&"'"

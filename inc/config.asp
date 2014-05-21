@@ -102,14 +102,14 @@ function CreateReturnValue(closeWindow,i){
 	self.opener.document.getElementById("rowcount").value=j
 	var T1=""+(tabindex)+"";
 	var T2="<a href='#' onClick='del_row("+j+")'>删除</a>";
-	var T3="<input name=goodscode type=text class=INPUT1 id=goodscode"+j+" size=16>"
-	var T4="<input name=goodsname type=text class=INPUT1 id=goodsname"+j+"  size=16>"
-	var T5="<input name=goodsunit type=text class=INPUT1 id=goodsunit"+j+"  size=13>" 
-	var T6="<input name=units type=text class=INPUT1 id=units"+j+"  size=5>"
-	var T7="<input onkeyup=count("+j+") name=price  type=text class=INPUT1 id=price"+j+"  size=8>"
-	var T8="<input onkeyup=count("+j+") name=number type=text class='number' id=number"+j+"  size=8>"
-	var T9="<input name=money type=text id=money"+j+" class='money' size=8 readonly>"
-	var T10="<input name=remark type=text class=INPUT1 id=remark"+j+" size=10><input name=aveprice type=hidden class=INPUT1 id=aveprice"+j+"  size=20><input name=fact_num type=hidden id=fact_num"+j+">"
+	var T3="<input name=\"goodscode\" type=\"text\" class=INPUT1 id=goodscode"+j+" size=16 />"
+	var T4="<input name=goodsname type=text class=INPUT1 id=goodsname"+j+"  size=16 />"
+	var T5="<input name=goodsunit type=text class=INPUT1 id=goodsunit"+j+"  size=13 />" 
+	var T6="<input name=units type=text class=INPUT1 id=units"+j+"  size=5 />"
+	var T7="<input onkeyup=count("+j+") name=price  type=text class=INPUT1 id=price"+j+"  size=8 />"
+	var T8="<input onkeyup=count("+j+") name=number type=text class='number' id=number"+j+"  size=8 />"
+	var T9="<input name=money type=text id=money"+j+" class='money' size=8 readonly />"
+	var T10="<input name=remark type=text class=INPUT1 id=remark"+j+" size=10 /><input name=aveprice type=hidden class=INPUT1 id=aveprice"+j+"  size=20 /><input name=fact_num type=hidden id=fact_num"+j+" />"
 	var objRow = self.opener.document.all.sqd.insertRow(-1);
 	var objCel = objRow.insertCell(0);
 	objCel.innerHTML =T1;
@@ -285,6 +285,14 @@ var aa = document.getElementsByName(itemName);
 for (var j=0; j<aa.length; j++)
 aa[j].checked = e.checked;
 }
+Object.prototype.clone = function() {
+  var copy = (this instanceof Array) ? [] : {};
+  for (attr in this) {
+    if (!obj.hasOwnProperty(attr)) continue;
+    copy[attr] = (typeof this[i] == "object")?obj[attr].clone():obj[attr];
+  } 
+  return copy;
+};
 </SCRIPT>
 
 <%
@@ -576,7 +584,7 @@ function showpage(sql,tablename,int_temp)
 	end if
 	
 
-
+ '这里以下的代码没有执行，需要调整
   rs_field.movefirst
   for k=1 to rs_field.recordcount
     str_show = rs(""&rs_field("field")&"")
@@ -691,6 +699,8 @@ function showpage(sql,tablename,int_temp)
    next
    Response.Write "</tr>"
  end if
+
+
  if rs_flag("sum_flag") >= 1 then
    Response.Write "<tr onMouseOver=""over()"" onClick=""change()"" onMouseOut=""out()"">"
    Response.Write "<th>合计</th>"
@@ -752,7 +762,9 @@ function showpage(sql,tablename,int_temp)
  endtime = timer()-starttime
  Response.Write "<tr>"
  Response.Write "<th colspan="&rs_field.recordcount+1+cp&" align=""left"">"
+ 
  mypage.showpage()  '显示分页信息，这个方法可以，在set rs=mypage.getrs()以后任意位置调用，可以调用多次 
+ 
  Response.Write "<label class=""button1""><input type=""submit"" value=""Excel""></label>"
  '设置列显示功能
  Response.Write "<script>"

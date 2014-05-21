@@ -28,22 +28,12 @@ If Request("add") = "false" Then
 	set rs = Server.CreateObject("adodb.recordset")
 	sql = "select * from dict_bill where name = '"& s_billtype &"'"
 	rs.open sql, conn, 1, 1
-	set rsBill = Server.CreateObject("adodb.recordset")
-	sql = "select * from t_bill where billcode = '" & s_billcode & "'"
-	rsBill.Open sql, conn, 1, 3
-	rsBill("adddate") = s_adddate
-	rsBill("custname") = s_custname
-	rsBill("depotname") = s_depot
-	rsBill("username") = s_user
-	rsBill("memo") = s_memo
-	rsBill("account") = s_account
-	rsBill("zdprice") = s_zdprice
-	rsBill("zkprice") = s_zkprice
-	rsBill("yfprice") = s_yfprice
-	rsBill("pay") = s_pay
-	rsBill.update
-	rsBill.close
-	set rsBill = nothing	
+	
+	sqlup = "update t_bill set adddate = '" &s_adddate& "' ,adddate='" &s_adddate& "',custname= '" &s_custname& "',depotname='" &s_depot& "',username= '" &s_user& "',memo='" &s_memo& "',account='" &s_account& "',zdprice='" &s_zdprice& "',zkprice='" &s_zkprice& "',yfprice='" &s_yfprice& "',pay='" &s_pay& "'  where billcode = '" & s_billcode & "'"
+	'response.write sqlup
+	conn.Execute(sqlup)
+	'conn.BeginTrans
+	
 Else
 	set rs = Server.CreateObject("adodb.recordset")
 	sql = "select * from dict_bill where billtype = '"& Request.QueryString("type") &"'"
@@ -61,6 +51,7 @@ Else
 		s_temp = Right(s_temp, 4) + 1
 		s_billcode = rs("billtype")&"-"&tdate&"-"&Right("000"&s_temp, 4)
 	End If
+	
 	s_billtype = rs("name")
     s_adddate = Trim(Request.Form("date"))
     s_custname = Trim(Request.Form("cust"))
@@ -84,38 +75,19 @@ Else
 	'添加开始
 	on error resume next
 	conn.BeginTrans
-	set rsBill = Server.CreateObject("adodb.recordset")
-	sql = "select * from t_bill where billcode = '" & s_billcode & "'"
-	rsBill.Open sql, conn, 1, 3
-	rsBill.addnew
-	rsBill("billtype") = s_billtype
-	rsBill("billcode") = s_billcode
-	rsBill("planbillcode") = s_planbillcode
-	rsBill("adddate") = s_adddate
-	rsBill("custname") = s_custname
-	rsBill("depotname") = s_depot
-	rsBill("username") = s_user
-	rsBill("memo") = s_memo
-	rsBill("maker") = s_maker
-	rsBill("flag") = rs("billflag")
-	rsBill("account") = s_account
-	rsBill("zdprice") = s_zdprice
-	rsBill("zkprice") = s_zkprice
-	rsBill("yfprice") = s_yfprice
-	rsBill("pay") = s_pay
-	rsBill.update
-	rsBill.close
-	set rsBill = nothing  
+	
+	sqladd="insert into t_bill(billtype,billcode,planbillcode,adddate,custname,depotname,username,memo,flag,account,zdprice,zkprice,yfprice,pay)VALUES('" &s_billtype & "','" &s_billcode & "','" & s_planbillcode & "','" & s_adddate & "','" & s_custname & "','" & s_depot & "','" & s_user& "','" & s_memo & "','" & rs("billflag") & "','" & s_account & "','" & s_zdprice & "','" & s_zkprice & "','" & s_yfprice & "','" & s_pay & "')"
+	conn.Execute(sqladd)
+	
 End If
 	
-sql = "delete from t_billdetail where billcode='"&s_billcode&"'"
+sql = "delete from t_billdetail where billcode='"&s_billcode&"';"
 conn.Execute(sql)
-
 set rsMemory = Server.CreateObject("adodb.recordset")
 
-set rsDetail = Server.CreateObject("adodb.recordset")
-sql = "select * from t_billdetail where billcode = '" & s_billcode & "'"
-rsDetail.Open sql, conn, 1, 3
+'set rsDetail = Server.CreateObject("adodb.recordset")
+'sql = "select * from t_billdetail where billcode = '" & s_billcode & "'"
+'rsDetail.Open sql, conn, 1, 3
 arrGoodscode = split(Trim(Request.Form("goodscode")), ",")
 arrGoodsname = split(Trim(Request.Form("goodsname")), ",")
 arrGoodsunit = split(Trim(Request.Form("goodsunit")), ",")
@@ -125,70 +97,68 @@ arrNumber    = split(Trim(Request.Form("number")), ",")
 arrMoney     = split(Trim(Request.Form("money")), ",")
 arrRemark    = split(Trim(Request.Form("remark")), ",")
 arrAvgprice  = split(Trim(Request.Form("aveprice")), ",")
+
 if UBound(arrGoodscode) = 0 then
-	rsDetail.addnew
-	rsDetail("billcode") = s_billcode
-	rsDetail("goodscode") = Trim(Request.Form("goodscode"))
-	rsDetail("goodsname") = Trim(Request.Form("goodsname"))
-	rsDetail("goodsunit") = Trim(Request.Form("goodsunit"))
-	rsDetail("units") = Trim(Request.Form("units"))
-	rsDetail("price") = cdbl(Trim(Request.Form("price")))
-	rsDetail("number") = cdbl(Trim(Request.Form("number")))
-	rsDetail("money") = cdbl(Trim(Request.Form("money")))
-	rsDetail("detailnote") = Trim(Trim(Request.Form("remark")))
+	
 	if rs("inorout") = "入库" then
-		rsDetail("inprice") = cdbl(Trim(Request.Form("price")))
+		sinprice = cdbl(Trim(Request.Form("price")))
 	else
-		rsDetail("inprice") = cdbl(Trim(Request.Form("aveprice")))
+		sinprice = cdbl(Trim(Request.Form("aveprice")))
 	end if
+		sqldetail="insert into t_billdetail(billcode,goodscode,goodsname,goodsunit,units,price,number,money,detailnote,inprice)"&_
+	          "values('"&s_billcode&"','"&Trim(Request.Form("goodscode"))&"','"&Trim(Request.Form("goodsname"))&_
+	          "','"&Trim(Request.Form("goodsunit"))&"','"&Trim(Request.Form("units"))&"','"&cdbl(Trim(Request.Form("price")))&_
+	          "','"&cdbl(Trim(Request.Form("number")))&"','"&cdbl(Trim(Request.Form("money")))&"','"&Trim(Trim(Request.Form("remark")))&_
+	          "','"&sinprice&"');"
+	          
+	
+	
 	sql = "select * from t_memoryprice where goodscode = '"& Request.Form("goodscode") &"' and billtype = '"& s_billtype &"' and custname = '"& s_custname &"'"
 	rsMemory.open sql, conn, 1, 3
 	if rsMemory.eof then
-		rsMemory.addnew
+		
+		sqlnew="insert into t_memoryprice(goodscode,custname,billtype,price) values"&_
+		"('"&Trim(Request.Form("goodscode"))&"','"&s_custname&"','"&s_billtype&"','"&cdbl(Trim(Request.Form("price")))&"');"
+	  conn.Execute(sqlnew)
 	end if
-	rsMemory("goodscode") = Trim(Request.Form("goodscode"))
-	rsMemory("custname") = s_custname
-	rsMemory("billtype") = s_billtype
-	rsMemory("price") = cdbl(Trim(Request.Form("price")))
-	rsMemory.update
 	rsMemory.close
+	conn.Execute(sqldetail)
+	
 else
 	For i = LBound(arrGoodscode) To UBound(arrGoodscode)
-		rsDetail.addnew
-		rsDetail("billcode") = s_billcode
-		rsDetail("goodscode") = Trim(arrGoodscode(i))
-		rsDetail("goodsname") = Trim(arrGoodsname(i))
-		rsDetail("goodsunit") = Trim(arrGoodsunit(i))
-		rsDetail("units") = Trim(arrUnits(i))
-		rsDetail("price") = cdbl(Trim(arrPrice(i)))
-		rsDetail("number") = cdbl(Trim(arrNumber(i)))
-		rsDetail("money") = cdbl(Trim(arrMoney(i)))
-		rsDetail("detailnote") = Trim(arrRemark(i))
+		
 		if rs("inorout") = "入库" then
-			rsDetail("inprice") = cdbl(Trim(arrPrice(i)))
+			sinprice = cdbl(Trim(arrPrice(i)))
 		else
-			rsDetail("inprice") = cdbl(Trim(arrAvgprice(i)))
+			sinprice = cdbl(Trim(arrAvgprice(i)))
 		end if
+		sqldetail="insert into t_billdetail(billcode,goodscode,goodsname,goodsunit,units,price,number,money,detailnote,inprice)"&_
+	          "values('"&s_billcode&"','"&Trim(arrGoodscode(i))&"','"&Trim(arrGoodsname(i))&_
+	          "','"&Trim(arrGoodsunit(i))&"','"&Trim(arrUnits(i))&"','"&cdbl(Trim(arrPrice(i)))&_
+	          "','"&cdbl(Trim(arrNumber(i)))&"','"&cdbl(Trim(arrMoney(i)))&"','"&Trim(arrRemark(i))&_
+	          "','"&sinprice&"');"
+		
+		
 	sql = "select * from t_memoryprice where goodscode = '"& Trim(arrGoodscode(i)) &"' and billtype = '"& s_billtype &"' and custname = '"& s_custname &"'"
 	rsMemory.open sql, conn, 1, 3
 	if rsMemory.eof then
-		rsMemory.addnew
+		
+		sqlnew="insert into t_memoryprice(goodscode,custname,billtype,price) values"&_
+		"('"&Trim(arrGoodscode(i))&"','"&s_custname&"','"&s_billtype&"','"&cdbl(Trim(arrPrice(i)))&"');"
+	 conn.Execute(sqlnew)
 	end if
-	rsMemory("goodscode") = Trim(arrGoodscode(i))
-	rsMemory("custname") = s_custname
-	rsMemory("billtype") = s_billtype
-	rsMemory("price") = cdbl(Trim(arrPrice(i)))
-	rsMemory.update
+	
 	rsMemory.close
+	
+	conn.Execute(sqldetail)
+	
 	Next
 end if
 set rsMemory = nothing
-rsDetail.update
-rsDetail.close
-set rsDetail = nothing
+
 rs.close
 set rs = nothing
-'Response.Write err.number
+
 if err.number <= 0 then
 	conn.CommitTrans
 	conn.close

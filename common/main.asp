@@ -124,6 +124,8 @@ sql = sql + "yfprice - IFNULL((select sum(yfprice) from t_bill where t_bill.Chec
 sql = sql + "yfprice - IFNULL((select sum(yfprice) from t_bill where t_bill.Check = 1 and planbillcode = bill.billcode), 0) - IFNULL((select sum(money) from t_cash where billcode = bill.billcode),0) - pay as nopay "
 sql = sql + "from t_bill as bill where bill.Check = 1 and billtype = '销售出库'"
 sql = sql + " and yfprice - IFNULL((select sum(yfprice) from t_bill where t_bill.Check = 1 and planbillcode = bill.billcode), 0) - IFNULL((select sum(money) from t_cash where billcode = bill.billcode),0) - pay > 0"
+
+
 set rs = Server.CreateObject("adodb.recordset")
 rs.open sql, conn, 1, 1
 Response.Write("<div class='update1'><h3>销售收款情况</h3></div>")
@@ -162,7 +164,7 @@ end if
 
 </BODY>
 </HTML>
-r>
+
 		    <td height=50></td>
 		  </tr>
 </table>
