@@ -104,26 +104,10 @@ function bar(){
 	$("#barcode").val("");
   }
 }
-function getPostArr(){
-	var arr=new Array();
-	$("input[use='post']").each(function(i){
-		arr.push(this.name);
-		});
-		
-		return arr;
-	}
+
 function check(){
-	var arry=getPostArr();
 	
-	for(x in arry){	
-		var tary=new Array();		
-		$("input[name='"+arry[x]+"'][type!='hidden']").each(function(i){
-			tary.push(this.value);
-			});
-		$("input[use='post'][name='"+arry[x]+"']").val(tary.join(","));		
-		}
-	
-if (document.sample.cust.value=="")
+if(document.sample.cust.value=="")
 {
 alert("请选择往来单位！");
 document.sample.cust.focus();
@@ -208,11 +192,6 @@ openwin('../action/print.asp?billcode='+billcode,800,600)
 <div align="left" style="margin-left:10px">
   <input name="button" type="button" class="button but_mar" onClick="doPrint('<%=rsbill("billcode")%>')" value=" 打 印 ">
 </div>
-<table align="center" border="0">
-<tr>
-<td>
-<br>
-
 <%if (rsBill("billtype")="采购退货" or rsBill("billtype")="销售退货") then%>
 <form method="POST" onKeyPress="if(event.keyCode==13){return false;}" action="../action/savebackbill.asp?type=<%=a("billtype")%>&add=false" name="sample">
 <%elseif rsBill("billtype")="库存盘点" then%>
@@ -222,7 +201,10 @@ openwin('../action/print.asp?billcode='+billcode,800,600)
 <%else%>
 <form method="POST" onKeyPress="if(event.keyCode==13){return false;}" action="../action/savebill.asp?type=<%=a("billtype")%>&add=false" name="sample">
 <%end if%>
-
+<table align="center" border="0">
+<tr>
+<td>
+<br>
 <div align="center"><span class="style1"><%
 Response.Write rsBillType("caption")
 %></span>
@@ -382,15 +364,7 @@ else%>
   <th width=10%>数量</th>
   <th width=10%>金额</th>
   <th width=20%>备注</th>
-  <input name=goodscode type=hidden use="post">
-<input name=goodsname type=hidden use="post">
-<input name=goodsunit type=hidden use="post">
-<input name=units type=hidden use="post">
-<input name=price type=hidden use="post">
-<input name=number type=hidden use="post">
-<input name=money type=hidden use="post">
-<input name=remark type=hidden use="post">
-<input name=aveprice type=hidden use="post">
+
 </tr>
 <%
 sql = "select * from t_billdetail where billcode='"&rsBill("billcode")&"'"
@@ -434,15 +408,17 @@ Next
 if power = "True" then
 if rsBill("check") <> True then%>
 <div align="center" class="but_mar"><input type="submit" onClick="return check();" class="button" value=" 保 存 " name="B1"></div>
-<%end if
+<%
+end if
 end if
 %>
-</form>
+
 </td></tr></table>
 <%
 close_rs(a)
 close_rs(rs_detail)
 endconnection
 %>
+</form>
 </BODY>
 </HTML>

@@ -1,6 +1,6 @@
 <!-- #include file="../inc/conn.asp" -->
 <!-- #include file="checkuser.asp" -->
-<%
+<% 
 If Request("add") = "false" Then
 	s_billtype = Request.QueryString("type")
 	s_adddate = Trim(Request.Form("date"))
@@ -80,9 +80,10 @@ Else
 	conn.Execute(sqladd)
 	
 End If
-	
-sql = "delete from t_billdetail where billcode='"&s_billcode&"';"
-conn.Execute(sql)
+
+sql ="delete from t_billdetail where billcode='"&Trim(Request.Form("billcode"))&"'"
+conn.Execute(sql)  
+
 set rsMemory = Server.CreateObject("adodb.recordset")
 
 'set rsDetail = Server.CreateObject("adodb.recordset")
@@ -125,7 +126,8 @@ if UBound(arrGoodscode) = 0 then
 	conn.Execute(sqldetail)
 	
 else
-	For i = LBound(arrGoodscode) To UBound(arrGoodscode)
+	
+		For i = LBound(arrGoodscode) To UBound(arrGoodscode)
 		
 		if rs("inorout") = "Èë¿â" then
 			sinprice = cdbl(Trim(arrPrice(i)))
@@ -145,6 +147,7 @@ else
 		
 		sqlnew="insert into t_memoryprice(goodscode,custname,billtype,price) values"&_
 		"('"&Trim(arrGoodscode(i))&"','"&s_custname&"','"&s_billtype&"','"&cdbl(Trim(arrPrice(i)))&"');"
+	 
 	 conn.Execute(sqlnew)
 	end if
 	
