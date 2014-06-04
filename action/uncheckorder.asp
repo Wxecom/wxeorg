@@ -19,7 +19,7 @@ window.history.go(-1);
 //window.reload();
 </script>
 <%else
-sql = "update t_bill set [check]=0 where billcode = '" & s_billcode & "'"
+sql = "update t_bill set t_bill.check=0 where billcode = '" & s_billcode & "'"
 Set rs = conn.Execute(sql)%>
 <script language=javascript>
 alert("该单据已反审!");
@@ -27,4 +27,4 @@ window.history.go(-1);
 //window.reload();
 </script>
 <%end if
-endconnection%>ion%>
+endconnection%>

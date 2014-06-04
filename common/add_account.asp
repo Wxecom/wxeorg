@@ -21,7 +21,7 @@ if Request.QueryString("add") = "true" then
 else
   s_tittle = "修改帐户信息"
   s_url    = "../action/add_account.asp?add=false"
-  sql = "select * from t_account where id = " & Request.QueryString("id")
+  sql = "select t_account.* from t_account where id = " & Request.QueryString("id")
   Set rs = server.CreateObject("adodb.recordset")
   rs.Open sql, conn, 1, 1
   s_account = rs("account")
@@ -61,5 +61,4 @@ endconnection
 
 </form>
 </body>
-</html>>
 </html>

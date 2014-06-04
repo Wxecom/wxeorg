@@ -28,7 +28,7 @@ Set rs = conn.Execute(sql)
     <td> <fieldset style="padding-bottom:0px"><legend>关于我们</legend>
       <table border="0" cellspacing="5" cellpadding="5" width="95%" align="center">
         <tr> 
-          <td align="left"><font color="#0000FF">红金羚进销存管理系统B/S版&nbsp;V<%=rs("Version")%>&nbsp;Build20120417<br>数据库版本号：<%=rs("DBVersion")%></font></td>
+          <td align="left"><font color="#0000FF">小二科技进销存管理系统B/S版&nbsp;V<%=rs("Version")%>&nbsp;Build20120417<br>数据库版本号：<%=rs("DBVersion")%></font></td>
         </tr>
 		
         <tr> 

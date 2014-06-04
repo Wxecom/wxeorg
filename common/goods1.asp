@@ -103,7 +103,7 @@ else
 	s_goodsunit = " and goodsunit like '%"& Request.Form("goodsunit") &"%'"
 end if
 
-sql = "select '<input type=checkbox name=t class=c value='''+goodscode+'''>' as action,* from t_goods where 1=1 " & s_goodscode & s_goodsname & s_goodsunit
+sql = "select CONCAT('<input type=checkbox name=t class=c value=''',goodscode,'''>') as action,t_goods.* from t_goods where 1=1 " & s_goodscode & s_goodsname & s_goodsunit
 'response.write(sql)
 call showpage(sql,"goods1",1)
 
@@ -118,6 +118,4 @@ endconnection
 </td></tr></table>
 </div>
 </body>
-</html>
-body>
 </html>

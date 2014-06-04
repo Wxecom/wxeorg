@@ -18,11 +18,11 @@ alert("该单据已审核！");
 window.history.go(-1)
 </script>
 <%else
-sql = "update t_bill set [check]=1 where billcode = '" & s_billcode & "'"
+sql = "update t_bill set t_bill.check=1 where billcode = '" & s_billcode & "'"
 Set rs = conn.Execute(sql)%>
 <script language=javascript>
 alert("该单据已审核！");
 window.history.go(-1)
 </script>
 <%end if
-endconnection%>ion%>
+endconnection%>

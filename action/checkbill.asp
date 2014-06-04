@@ -42,7 +42,7 @@ end if
 on error resume next
 conn.BeginTrans
 s_billcode = Request.QueryString("billcode")
-sqlbill = "select billcode,depotname,flag,custname,billtype,[check] from t_bill where billcode = '"& s_billcode &"'"
+sqlbill = "select billcode,depotname,flag,custname,billtype,t_bill.check from t_bill where billcode = '"& s_billcode &"'"
 
 set rsbill = server.CreateObject("adodb.recordset")
 
@@ -53,7 +53,7 @@ if rsbill("check") = True then
 	Response.Write("<script>window.close();</script>")
 	Response.End()
 end if
-sql = "update t_bill set [check]=1,checkman='"& Request.Cookies("username") &"',checkdate='"& date() &"' where billcode = '" & s_billcode & "'"
+sql = "update t_bill set t_bill.check=1,checkman='"& Request.Cookies("username") &"',checkdate='"& date() &"' where billcode = '" & s_billcode & "'"
 
 Set rs = conn.Execute(sql)
 if rsbill("flag") <> 0 then
@@ -128,5 +128,4 @@ endconnection
 <script language=javascript>
 window.opener.location.reload();
 window.close();
-</script>
 </script>

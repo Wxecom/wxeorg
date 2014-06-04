@@ -132,7 +132,7 @@ end if
 	else
 		s_user = " and user = '" & Request.Form("user") & "'"
 	end if
-	sql = "select '<a href=# onClick=check_edit('''+billcode+''')>'+billcode+'</a>' as abillcode,* from t_cashbank where billtype = '其他支出' and (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'" & s_projectname & s_user
+	sql = "select CONCAT('<a href=# onClick=check_edit(''',billcode,''')>',billcode,'</a>') as abillcode,t_cashbank.* from t_cashbank where billtype = '其他支出' and (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'" & s_projectname & s_user
 	call showpage(sql,"income",1)
 	endconnection
 	%>
@@ -140,8 +140,5 @@ end if
 </tr>
 </table>
 </div>
-</body>
-</html>
-
 </body>
 </html>

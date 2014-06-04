@@ -44,7 +44,7 @@ if rs("billtype") = "ÕÀ¡œ»Îø‚" then
 	call CheckAuthority("strDelTL")
 end if
 
-sql = "select [check] from t_bill where billcode = '" & Request.QueryString("billcode") & "'"
+sql = "select t_bill.check from t_bill where billcode = '" & Request.QueryString("billcode") & "'"
 Set rs = conn.Execute(sql)
 
 
@@ -63,4 +63,3 @@ endconnection
 <script>
 	window.history.go(-1);
 </script>
-pt>

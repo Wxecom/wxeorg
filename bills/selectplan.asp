@@ -262,7 +262,6 @@ End If
 	<%
 	sql_dpt = "select depotname from t_depot order by id"
 	set rs_dpt = server.createobject("adodb.recordset")
-	conn.cursorlocation=3
 	rs_dpt.open sql_dpt,conn,3,3
 	%>
 	<td><select name="depot" id="depot">

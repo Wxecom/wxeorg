@@ -830,6 +830,32 @@ function ShowCombo(tablename,fieldname,comboname,combovalue)
 	set rs_combo = nothing
 end function
 
+function ShowItem(tname,comboname,combovalue)
+	sql_combo = "select item_code,show_name  from dict_item where type_name='" & tname &"'"
+	Set rs_combo = server.CreateObject("adodb.recordset")
+	
+	rs_combo.Open sql_combo, conn, 1, 1
+
+	Response.Write "<select id="&comboname&" name="&comboname&">"
+	if rs_combo.recordcount > 0 then
+	rs_combo.movefirst
+	Response.Write "<option value=''></option>"
+	  for i = 1 to rs_combo.recordcount
+		  if combovalue = rs_combo("item_code") then
+			  Response.Write "<option value=" & rs_combo("item_code") & " selected>" & rs_combo("show_name") & "</option>"
+		  else
+			  Response.Write "<option value=" & rs_combo("item_code") & ">" & rs_combo("show_name") & "</option>"
+		  end if
+		  rs_combo.movenext
+	  next
+	else
+	Response.Write "<option value=''></option>"  
+	end if
+	Response.Write "</select>"
+	rs_combo.close
+	set rs_combo = nothing
+end function
+
 function formatdate(date)
 	stryear=Year(Date)
 	strMon=month(Date)

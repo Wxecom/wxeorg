@@ -72,7 +72,7 @@ function add(){
 <tr valign="top">
 <td>
 <%
-sql = "select '<a href=# onClick=edit('''+depotname+''')>'+depotname+'</a>' as aDepotname, * from t_depot where depotname like '"& Request.Form("depotname") &"%'"
+sql = "select CONCAT('<a href=# onClick=edit(''',depotname,''')>',depotname,'</a>') as aDepotname, t_depot.* from t_depot where depotname like '"& Request.Form("depotname") &"%'"
 call showpage(sql,"depotname",1)
 endconnection
 %>
@@ -80,6 +80,4 @@ endconnection
 </table>
 </div>
 </body>
-</html>
-body>
 </html>

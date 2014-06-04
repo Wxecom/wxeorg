@@ -137,6 +137,12 @@ rsBill.Open sql, conn,1,1
 </tr>
 
 <tr>
+	<td align="right">借&nbsp;&nbsp;&nbsp;&nbsp;方:</td>
+	<td><%call ShowItem("debit","debit","")%></td>
+	<td align="right">贷&nbsp;&nbsp;&nbsp;&nbsp;方</td>
+	<td><%call ShowItem("lender","lender","")%></td>
+</tr>
+<tr>
 	<td align="right">经&nbsp;办&nbsp;人:</td>
 	<td><%call showemployee("user","")%></td>
 	<td align="right">经办部门:</td>
@@ -257,6 +263,12 @@ Response.Write "<INPUT type=hidden name=""billcode"" value="&rs("cashcode")&">"
 	<td><input type="text" name="money" id="mon" value=<%=rs("money")%>></td>
 </tr>
 
+<tr>
+	<td align="right">借&nbsp;&nbsp;&nbsp;&nbsp;方:</td>
+	<td><%call ShowItem("debit","debit",rs("debit"))%></td>
+	<td align="right">贷&nbsp;&nbsp;&nbsp;&nbsp;方</td>
+	<td><%call ShowItem("lender","lender",rs("lender"))%></td>
+</tr>
 <tr>
 	<td align="right">经&nbsp;办&nbsp;人:</td>
 	<td><%call showemployee("user",rs("user"))%></td>

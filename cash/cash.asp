@@ -228,7 +228,7 @@ end if
 if Request.Form("user") = "" then
 	sUser = ""
 else
-	sUser = " and [user] = '" & Request.Form("user") & "'"
+	sUser = " and user = '" & Request.Form("user") & "'"
 end if
 
 if Request.Form("username") = "" then
@@ -238,12 +238,13 @@ else
 end if
 
 
-sql = "select '<a href=# onClick=edit(''"&Request.QueryString("type")&"'','''+cashcode+''')>'+cashcode+'</a>' as aCashCode,cashcode,"
-sql = sql & "adddate,custname,billcode,username,money,[user] from t_cash where AddDate<='"&sDate2&"' and AddDate>='"&sDate1&"' and cashtype='"&cashtype&"'"&sCashcode&sCustname&sBillcode&sAccount&sUser&sUsername
+sql = "select CONCAT('<a href=# onClick=edit(''"&Request.QueryString("type")&"'',''',cashcode,''')>',cashcode,'</a>') as aCashCode,cashcode,"
+sql = sql & "adddate,custname,billcode,username,money,user,debit,lender from t_cash where AddDate<='"&sDate2&"' and AddDate>='"&sDate1&"' and cashtype='"&cashtype&"'"&sCashcode&sCustname&sBillcode&sAccount&sUser&sUsername
 call showpage(sql,"showcash",1)
+
 %>
 </td></tr></table>
 </div>
 </body>
 </html>
-tml>
+

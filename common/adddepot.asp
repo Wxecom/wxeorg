@@ -1,3 +1,4 @@
+<%@LANGUAGE="VBSCRIPT"%>
 <!-- #include file="../inc/conn.asp" -->
 <!-- #include file="../action/checkuser.asp" -->
 <!-- #include file="../inc/config.asp" -->
@@ -154,14 +155,18 @@ end if
   <%if request.querystring("type")="add" then%>
   <tr>
     <td align="right">设置管理权限:</td>
-    <td colspan="2" align="left"><b><font color="#ff0000">免费版不提供此功能 请联系小二科技购买商业版 http://www.hokilly.com/ 咨询QQ：15916190</font></b></td>
+    <td colspan="2" align="left"><label>
+      <input <%If (CStr(userlist) = CStr(userlist)) Then Response.Write("checked=""checked""") : Response.Write("")%> type="checkbox" name="userlist" id="userlist">
+    </label></td>
     <td></td>
   </tr>
   <%end if%>
   <tr>
     <td colspan="3" align="center">
-    	<input type="hidden" name="userlist" id ="userlist" value="">
-    	<input type="button" class="button" value=" 保 存 " onMouseOver="this.className='button_over';" onMouseOut="this.className='button';"  onClick="save()">		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  
+    	<input type="button" class="button" value=" 保 存 " onMouseOver="this.className='button_over';" onMouseOut="this.className='button';"  onClick="save()">	
+        
+       	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <input type="reset" class="button" value=" 重 置 " onMouseOver="this.className='button_over';" onMouseOut="this.className='button';" ></td>
   </tr>
 </table>

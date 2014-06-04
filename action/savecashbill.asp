@@ -28,6 +28,8 @@ rsCash("adddate") = Request.Form("date")
 rsCash("account") = Request.Form("account")
 rsCash("sign") = i_sign
 rsCash("username") = Request.Form("maker")
+rsCash("debit") = Request.Form("debit")
+rsCash("lender") = Request.Form("lender")
 rsCash.update
 rsCash.close
 set rsCash = nothing

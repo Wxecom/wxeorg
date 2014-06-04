@@ -97,10 +97,10 @@ else
 end if
 
 sql = "select adddate, custname, billcode, "
-sql = sql + "yfprice - isnull((select sum(yfprice) from t_bill where [check] = 1 and planbillcode = bill.billcode), 0) as mon, "
-sql = sql + "yfprice - isnull((select sum(yfprice) from t_bill where [check] = 1 and planbillcode = bill.billcode), 0) - isnull((select sum(money) from t_cash where billcode = bill.billcode),0) - pay as wmon "
-sql = sql + "from t_bill as bill where [check] = 1 and billtype = '" &s_type& "' and adddate between '"& s_date1 &"' and '"& s_date2 &"'"
-sql = sql + " and yfprice - isnull((select sum(yfprice) from t_bill where [check] = 1 and planbillcode = bill.billcode), 0) - isnull((select sum(money) from t_cash where billcode = bill.billcode),0) - pay > 0"
+sql = sql + "yfprice - ifnull((select sum(yfprice) from t_bill where t_bill.check = 1 and planbillcode = bill.billcode), 0) as mon, "
+sql = sql + "yfprice - ifnull((select sum(yfprice) from t_bill where t_bill.check = 1 and planbillcode = bill.billcode), 0) - ifnull((select sum(money) from t_cash where billcode = bill.billcode),0) - pay as wmon "
+sql = sql + "from t_bill as bill where bill.check = 1 and billtype = '" &s_type& "' and adddate between '"& s_date1 &"' and '"& s_date2 &"'"
+sql = sql + " and yfprice - ifnull((select sum(yfprice) from t_bill where t_bill.check = 1 and planbillcode = bill.billcode), 0) - ifnull((select sum(money) from t_cash where billcode = bill.billcode),0) - pay > 0"
 
 Set rs = server.CreateObject("adodb.recordset")
 rs.Open sql, conn, 1, 1
@@ -149,7 +149,5 @@ close_rs(rs)
 endconnection
 %>
 </table>
-</body>
-</html>
 </body>
 </html>

@@ -164,15 +164,15 @@ else
 end if
 If request("custname") = "" Then
     If request("nodename") = "" Then
-        sql = "select '<a href=# onClick=edit('''+custname+''')>'+custname+'</a>' as aCustname,* from t_custom where 1=1" & s_cust&" order by CustID desc"
+        sql = "select CONCAT('<a href=# onClick=edit(''',custname,''')>',custname,'</a>') as aCustname,t_custom.* from t_custom where 1=1" & s_cust&" order by CustID desc"
     Else
-        sql = "select '<a href=# onClick=edit('''+custname+''')>'+custname+'</a>' as aCustname,* from t_custom where 1=1 and code like '"&request("typecode")&"%'" & s_cust&" order by CustID desc"
+        sql = "select CONCAT('<a href=# onClick=edit(''',custname,''')>',custname,'</a>') as aCustname,t_custom.* from t_custom where 1=1 and code like '"&request("typecode")&"%'" & s_cust&" order by CustID desc"
     End If
 Else
     If request("nodename") = "" Then
-        sql = "select '<a href=# onClick=edit('''+custname+''')>'+custname+'</a>' as aCustname,* from t_custom where 1=1 and CustName like '%"&request("custname")&"%'" & s_cust&" order by CustID desc"
+        sql = "select CONCAT('<a href=# onClick=edit(''',custname,''')>',custname,'</a>') as aCustname,t_custom.* from t_custom where 1=1 and CustName like '%"&request("custname")&"%'" & s_cust&" order by CustID desc"
     Else
-        sql = "select '<a href=# onClick=edit('''+custname+''')>'+custname+'</a>' as aCustname,* from t_custom where 1=1 and code like '"&request("typecode")&"%' and CustName='"&request("custname")&"'" & s_cust&" order by CustID desc"
+        sql = "select CONCAT('<a href=# onClick=edit(''',custname,''')>',custname,'</a>') as aCustname,t_custom.* from t_custom where 1=1 and code like '"&request("typecode")&"%' and CustName='"&request("custname")&"'" & s_cust&" order by CustID desc"
     End If
 End If
 call showpage(sql,"custom",1)
@@ -209,10 +209,6 @@ call showpage(sql,"custom",1)
 </table>
 </div><!-- message -->
 </div><!-- message_box -->
-<%endconnection%>
-</div>
-</body>
-</html>iv><!-- message_box -->
 <%endconnection%>
 </div>
 </body>

@@ -188,7 +188,8 @@ else
 	s_goodsunit = " and goodsunit like '%"&request.Form("goodsunit")&"%'"
 end if
 
-sql = "select '<a href=# onClick=editgoods('''+goodscode+''')>'+goodsname+'</a>' as agoodsname,* from t_goods where 1=1 " & s_goodscode & s_goodstype & s_goodsname & s_goodsunit&"order by GoodsID desc"
+sql = "select CONCAT('<a href=# onClick=editgoods(''',goodscode,''')>',goodsname,'</a>') as agoodsname, t_goods.* from t_goods where 1=1 " & s_goodscode & s_goodstype & s_goodsname & s_goodsunit&"order by GoodsID desc"
+
 
 sql_check = "select * from t_softinfo"
 Set rs = conn.Execute(sql_check)
@@ -202,6 +203,9 @@ end if
 </td>
 </tr>
 </table>
+
+
+
 <div id="message_box" style="position:absolute;left:48%;top:3%;width:250px;height:400px;filter:dropshadow(color=#666666,offx=3,offy=3,positive=2);z-index:1000;visibility:hidden">
    <div id= "message" style="border:#036 solid; border-width:1 1 3 1;width:95%; height:95%; background:#fff; color:#036; font-size:12px; line-height:150%;">
     <!-- DIV弹出状态行：标题、关闭按钮 -->
@@ -213,7 +217,7 @@ end if
 	d = new dTree('d');
 	<%
     Response.Write "d.add(0,-1,'货品分类','edittree.asp?type=goods&name="&s_name&"&id="&i_id&"&pid=0');"
-		sql_gtype = "select * from t_tree where type='goods'"
+		sql_gtype = "select t_tree.* from t_tree where type='goods'"
 		set rs_gtype = conn.Execute(sql_gtype)
 		do while rs_gtype.eof=false
 		  i_id=rs_gtype("id")
@@ -229,12 +233,9 @@ end if
 	document.write(d);
 </script>
 </div><!-- message -->
-</div><!-- message_box -->
-
-<%endconnection%>
-
-</body>
-</html>
+</div>
+<p>
+  <!-- message_box -->
   
   <%endconnection%>
   
