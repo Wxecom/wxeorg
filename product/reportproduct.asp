@@ -139,7 +139,7 @@ If Request.Form("user") = "" Then
 Else
     s_user = " and username='"&Request.Form("user")&"'"
 End If
-sql = "select number * flag as t_num,* from s_billdetail where flag=1 and billtype = '产品组装' and adddate>='"&s_date1&"' and adddate<='"&s_date2&"'" & s_depotname & s_custname & goodsname & s_user
+sql = "select number * flag as t_num,s_billdetail.* from s_billdetail where flag=1 and billtype = '产品组装' and adddate>='"&s_date1&"' and adddate<='"&s_date2&"'" & s_depotname & s_custname & goodsname & s_user
 call showpage(sql,"R_Detail",1)
 endconnection
 %>

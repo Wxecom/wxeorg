@@ -123,7 +123,7 @@ If Request.Form("user") = "" Then
 Else
     s_user = " and username='"&Request.Form("user")&"'"
 End If
-sql = "select '<a href=# onClick=editgoods('''+goodscode+''')>'+goodscode+'</a>' as aGoodsCode,'<a href=# onClick=editgoods('''+goodscode+''')>'+goodsname+'</a>' as aGoodsName,'<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,'<a href=# onClick=editcust('''+custname+''')>'+custname+'</a>' as acustname,goodscode,goodsname,billtype,adddate,custname,price,-1*number*flag as t_num,-1*money*flag as t_mon,goodsunit,username,units,billcode,depotname,memo from s_billdetail where flag<>0 and billtype like '销售%' and (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user
+sql = "select CONCAT('<a href=# onClick=editgoods(''',goodscode,''')>',goodscode,'</a>') as aGoodsCode,CONCAT('<a href=# onClick=editgoods(''',goodscode,''')>',goodsname,'</a>') as aGoodsName,CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,CONCAT('<a href=# onClick=editcust(''',custname,''')>',custname,'</a>') as acustname,goodscode,goodsname,billtype,adddate,custname,price,-1*number*flag as t_num,-1*money*flag as t_mon,goodsunit,username,units,billcode,depotname,memo from s_billdetail where flag<>0 and billtype like '销售%' and (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user
 
 call showpage(sql,"R_Goodssaledetail",1)
 endconnection

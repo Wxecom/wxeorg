@@ -85,19 +85,19 @@ end if
 sCustname = " "
 %>
 <%if Request.QueryString("type") = "FK" then
-	sql = "select top 100000 billcode,adddate,custname,depotname,username,memo,zkprice,zdprice,"
-	sql = sql + "isnull((select sum(yfprice) from t_bill where [check] = 1 and planbillcode = s.billcode),0) as backmoney,"
-	sql = sql + "yfprice - isnull((select sum(yfprice) from t_bill where [check] = 1 and planbillcode = s.billcode),0) as yfmoney,"
-	sql = sql + "isnull((select sum(money) from t_cash where billcode = s.billcode),0) + pay as cashmoney,"
-	sql = sql + "yfprice - isnull((select sum(yfprice) from t_bill where [check] = 1 and planbillcode = s.billcode),0) - isnull((select sum(money) from t_cash where billcode = s.billcode),0) - pay as wfmoney"
+	sql = "select billcode,adddate,custname,depotname,username,memo,zkprice,zdprice,"
+	sql = sql + "ifnull((select sum(yfprice) from t_bill where t_bill.check = 1 and planbillcode = s.billcode),0) as backmoney,"
+	sql = sql + "yfprice - ifnull((select sum(yfprice) from t_bill where t_bill.check = 1 and planbillcode = s.billcode),0) as yfmoney,"
+	sql = sql + "ifnull((select sum(money) from t_cash where billcode = s.billcode),0) + pay as cashmoney,"
+	sql = sql + "yfprice - ifnull((select sum(yfprice) from t_bill where t_bill.check = 1 and planbillcode = s.billcode),0) - ifnull((select sum(money) from t_cash where billcode = s.billcode),0) - pay as wfmoney"
 	sql = sql + " from t_bill as s where adddate between '"&s_date1&"' and '"&s_date2&"' and billtype = '采购入库'"&s_billcode&sDepotname&sCustname&" order by adddate desc,billcode desc"
 	call showpage(sql,"r_fkcountbill",1)
  else
-	sql = "select top 100000 billcode,adddate,custname,depotname,username,memo,zkprice,zdprice,"
-	sql = sql + "isnull((select sum(yfprice) from t_bill where [check] = 1 and planbillcode = s.billcode),0) as backmoney,"
-	sql = sql + "yfprice - isnull((select sum(yfprice) from t_bill where [check] = 1 and planbillcode = s.billcode),0) as ysmoney,"
-	sql = sql + "isnull((select sum(money) from t_cash where billcode = s.billcode),0) + pay as cashmoney,"
-	sql = sql + "yfprice - isnull((select sum(yfprice) from t_bill where [check] = 1 and planbillcode = s.billcode),0) - isnull((select sum(money) from t_cash where billcode = s.billcode),0) - pay as wsmoney"
+	sql = "select billcode,adddate,custname,depotname,username,memo,zkprice,zdprice,"
+	sql = sql + "ifnull((select sum(yfprice) from t_bill where t_bill.check = 1 and planbillcode = s.billcode),0) as backmoney,"
+	sql = sql + "yfprice - ifnull((select sum(yfprice) from t_bill where t_bill.check = 1 and planbillcode = s.billcode),0) as ysmoney,"
+	sql = sql + "ifnull((select sum(money) from t_cash where billcode = s.billcode),0) + pay as cashmoney,"
+	sql = sql + "yfprice - ifnull((select sum(yfprice) from t_bill where t_bill.check = 1 and planbillcode = s.billcode),0) - ifnull((select sum(money) from t_cash where billcode = s.billcode),0) - pay as wsmoney"
 	sql = sql + " from t_bill as s where adddate between '"&s_date1&"' and '"&s_date2&"' and billtype = '销售出库'"&s_billcode&sDepotname&sCustname&" order by adddate desc,billcode desc"
 	call showpage(sql,"r_skcountbill",1)
 end if

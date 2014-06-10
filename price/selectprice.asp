@@ -180,7 +180,7 @@ If Request.Form("date2")<>"" Then
     s_date2 = Request.Form("date2")
 End If
 
-sql = "select '<a href=# onClick=checkbill('''+billcode+''','+convert(varchar(1),[check])+')>ÉóºË</a>&nbsp;&nbsp;<a href=# onClick=uncheckbill('''+billcode+''','+convert(varchar(1),[check])+')>·´Éó</a>&nbsp;&nbsp;<a href=# onClick=EditBill('''+billcode+''','+convert(varchar(1),[check])+')>ÐÞ¸Ä</a>&nbsp;&nbsp;<a href=# onClick=del('''+billcode+''','+convert(varchar(1),[check])+')>É¾³ý</a>&nbsp;&nbsp;<a href=addprice.asp?billcode='+billcode+'>ÏêÇé</a>' as action,price.*,goodsname,goodsunit,units,case when [check] = 1 then 'ÒÑÉóºË' else 'Î´ÉóºË' end as state from (select * from t_price where adddate between '"&s_date1&"' and '"&s_date2&"') as price left join t_goods on t_goods.goodscode = price.goodscode"
+sql = "select CONCAT('<a href=# onClick=checkbill(''',billcode,''',',convert(varchar(1),t_price.check),')>ÉóºË</a>&nbsp;&nbsp;<a href=# onClick=uncheckbill(''',billcode,''',',convert(varchar(1),t_price.check),')>·´Éó</a>)&nbsp;&nbsp; CONCAT('<a href=# onClick=EditBill(''',billcode,''',',convert(varchar(1),t_price.check),')>ÐÞ¸Ä</a>)&nbsp;&nbsp; CONCAT('<a href=# onClick=del(''',billcode,''',',convert(varchar(1),t_price.check),')>É¾³ý</a>&nbsp;&nbsp; CONCAT('<a href=addprice.asp?billcode=',billcode,'>ÏêÇé</a>') as action,price.*,goodsname,goodsunit,units,case when t_price.check = 1 then 'ÒÑÉóºË' else 'Î´ÉóºË' end as state from (select * from t_price where adddate between '"&s_date1&"' and '"&s_date2&"') as price left join t_goods on t_goods.goodscode = price.goodscode"
 
 call showpage(sql,"price",1)
 %>

@@ -59,7 +59,7 @@ for i=0 to rs.recordcount -1
 	<%
 	rs_dpt.movefirst
 	for j=0 to rs_dpt.recordcount - 1
-		sql_ult = "select isnull(sum(number),0) as totalnum from s_billdetail where inorout='Èë¿â' and flag=1 and adddate>='"& s_date1 &"' and adddate<='"&s_date2&"' and goodscode='"&rs("goodscode")&"' and depotname='"&rs_dpt("depotname")&"'"
+		sql_ult = "select ifnull(sum(number),0) as totalnum from s_billdetail where inorout='Èë¿â' and flag=1 and adddate>='"& s_date1 &"' and adddate<='"&s_date2&"' and goodscode='"&rs("goodscode")&"' and depotname='"&rs_dpt("depotname")&"'"
 		set rs_ult = server.createobject("adodb.recordset")
 		rs_ult.open sql_ult,conn,1,1	
 		response.write "<td align=right>"&rs_ult("totalnum")&"</td>"

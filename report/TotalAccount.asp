@@ -64,7 +64,7 @@ end if
 	  s_account = " and account = '" & Request.Form("account") & "'"
 	end if
 	
-sql = "select s1.account,original+isnull(s2.t_mon,0)+isnull(s3.t_mon,0)+isnull(s4.t_mon,0) as balance from (select account,original from t_account where 1=1 " & s_account & ") as s1 left join (select account,sum(pay*flag*-1) as t_mon from t_bill where 1=1 " & s_account & " group by account) as s2 on s2.account=s1.account left join (select account,sum(money*sign) as t_mon from t_cash where 1=1 " & s_account & " group by account) as s3 on s3.account=s1.account left join (select account,sum(money*sign) as t_mon from t_cashbank where 1=1 " & s_account & " group by account) as s4 on s4.account = s1.account"
+sql = "select s1.account,original+ifnull(s2.t_mon,0)+ifnull(s3.t_mon,0)+ifnull(s4.t_mon,0) as balance from (select account,original from t_account where 1=1 " & s_account & ") as s1 left join (select account,sum(pay*flag*-1) as t_mon from t_bill where 1=1 " & s_account & " group by account) as s2 on s2.account=s1.account left join (select account,sum(money*sign) as t_mon from t_cash where 1=1 " & s_account & " group by account) as s3 on s3.account=s1.account left join (select account,sum(money*sign) as t_mon from t_cashbank where 1=1 " & s_account & " group by account) as s4 on s4.account = s1.account"
 'response.write(sql)
 Call showpage(sql,"Other1",1)
 endconnection

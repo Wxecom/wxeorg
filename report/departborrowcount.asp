@@ -123,7 +123,7 @@ Else
     s_user = " and username='"&Request.Form("user")&"'"
 End If
 
-sql = "select s1.custname,isnull(innum,0) as innum,isnull(inmoney,0) as inmoney,isnull(outnum,0) as outnum,isnull(outmoney,0) as outmoney,isnull(innum-outnum,0) as totalnum,isnull(inmoney-outmoney,0) as totalmoney from (select custname,sum(number) as innum,sum(money) as inmoney from s_billdetail where billtype = '领料出库 'and AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user&" group by custname) as s1 left join (select custname,sum(number) as outnum,sum(money) as outmoney from s_billdetail where billtype = '退料入库 'and AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user&" group by custname) as s2 on s2.custname = s1.custname"
+sql = "select s1.custname,ifnull(innum,0) as innum,ifnull(inmoney,0) as inmoney,ifnull(outnum,0) as outnum,ifnull(outmoney,0) as outmoney,ifnull(innum-outnum,0) as totalnum,ifnull(inmoney-outmoney,0) as totalmoney from (select custname,sum(number) as innum,sum(money) as inmoney from s_billdetail where billtype = '领料出库 'and AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user&" group by custname) as s1 left join (select custname,sum(number) as outnum,sum(money) as outmoney from s_billdetail where billtype = '退料入库 'and AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user&" group by custname) as s2 on s2.custname = s1.custname"
 'response.write(sql)
 call showpage(sql,"R_DepartborrowCount",1)
 endconnection

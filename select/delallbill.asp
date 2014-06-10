@@ -54,10 +54,10 @@ else
     conn.BeginTrans   
 
 		delsql = "delete from t_billdetail where billcode = '" & billcode & "'"
-		Set rs1 = conn.Execute(delsql)
+		 conn.Execute(delsql)
 		
 		delsql = "delete from t_bill where billcode = '" & billcode & "'"
-		Set rs2 = conn.Execute(delsql)
+		 conn.Execute(delsql)
 		
 		if err <> 0 then        
 			conn.rollbacktrans    
@@ -72,8 +72,13 @@ else
 		Response.Write billcode & ":不能删除已审核单据"
 	end if
 end if
+
 rsDel.close
 set rsDel = nothing
+
+conn.close
+set conn=nothing
+	
 Response.End
 'Response.Write s_account
-%>delete from t_bill where billcode = 'XS-2014-05-17-0002'
+%>

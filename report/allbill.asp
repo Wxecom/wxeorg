@@ -369,7 +369,7 @@ elseif Request.Form("checked") = "“—…Û∫À" then
 elseif Request.Form("checked") = "Œ¥…Û∫À" then
 	s_check = " and [check] = 0"
 end if
-sql = "select '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,billcode,custname,adddate,depotname,billtype,username,memo,case when [check]=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user&s_billcode&s_billtype&s_goodscode&s_check&" order by adddate desc"
+sql = "select '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,billcode,custname,adddate,depotname,billtype,username,memo,case when t_bill.check=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user&s_billcode&s_billtype&s_goodscode&s_check&" order by adddate desc"
 'response.write(sql)
 call showpage(sql,"allbill",3)
 endconnection

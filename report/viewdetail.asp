@@ -122,7 +122,7 @@ End If
 
 
 
-sql = "select top 1000000 adddate,billcode,billtype,goodscode,goodsname,goodsunit,Remark,DetailNote,custname,case when flag=1 then number else 0 end as inqty,case when flag=-1 then number else 0 end as outqty,price,money,maker,depotname,username from s_billdetail where [Check]=1 "&s_depotname&" "&s_goodsname&" "&s_goodscode&" "&s_goodsunit&" and adddate between '"&s_date1&"' and '"&s_date2&"'order by adddate"
+sql = "select top 1000000 adddate,billcode,billtype,goodscode,goodsname,goodsunit,Remark,DetailNote,custname,case when flag=1 then number else 0 end as inqty,case when flag=-1 then number else 0 end as outqty,price,money,maker,depotname,username from s_billdetail where s_billdetail.check=1 "&s_depotname&" "&s_goodsname&" "&s_goodscode&" "&s_goodsunit&" and adddate between '"&s_date1&"' and '"&s_date2&"'order by adddate"
 
 call showpage(sql,"rgoodsdepot",1)
 

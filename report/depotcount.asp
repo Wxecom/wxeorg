@@ -136,12 +136,12 @@ else
 	s_goodsname = " and goodsname='"&request("goodsname")&"'"
 end if
 
-sql = "select '<a href=# onClick=detail('''+goods.goodscode+''')>ÏÔÊ¾Ã÷Ï¸</a>&nbsp;&nbsp;<a href=# onClick=depot('''+goods.goodscode+''')>·Ö²Ö¿â´æ</a>' as action, goods.goodscode,goodsname,goodsunit,units,endnumber,endmoney,innumber,inmoney,outnumber,outmoney,startnumber,startmoney,avgprice,(startmoney+inmoney-outmoney-endmoney) as showcolor from ("
+sql = "select CONCAT('<a href=# onClick=detail(''',goods.goodscode,''')>ÏÔÊ¾Ã÷Ï¸</a>)&nbsp;&nbsp;CONCAT('<a href=# onClick=depot(''',goods.goodscode,''')>·Ö²Ö¿â´æ</a>') as action, goods.goodscode,goodsname,goodsunit,units,endnumber,endmoney,innumber,inmoney,outnumber,outmoney,startnumber,startmoney,avgprice,(startmoney+inmoney-outmoney-endmoney) as showcolor from ("
 sql = sql + "(select * from t_goods where 1=1"&s_goodstype&s_goodscode&s_goodsname&") as goods left join (select cast((case when sum(qty) is null or sum(qty) = 0 then 0 else sum(qty*price)/sum(qty) end) as float) as avgprice,goodscode from t_stock where depotname like '"& Request.Form("depot") &"%' group by goodscode) as depot on goods.goodscode = depot.goodscode "
-sql = sql + "left join (select goodscode,isnull(sum(number*flag),0) as startnumber,isnull(sum(number*inprice*flag),0) as startmoney from s_count where [check] = 1 and adddate<'"&s_date1&"'"&s_depotname&" group by goodscode) as s_start on s_start.goodscode = goods.goodscode "
-sql = sql + "left join (select goodscode,isnull(sum(number),0) as outnumber,isnull(sum(number*inprice),0) as outmoney from s_count where [check] = 1 and flag=-1 and adddate>='"&s_date1&"' and adddate<='"&s_date2&"'"&s_depotname&" group by goodscode) as s_out on s_out.goodscode = goods.goodscode "
-sql = sql + "left join (select goodscode,isnull(sum(number),0) as innumber,isnull(sum(number*inprice),0) as inmoney from s_count where [check] = 1 and flag=1 and adddate>='"&s_date1&"' and adddate<='"&s_date2&"'"&s_depotname&" group by goodscode) as s_in on s_in.goodscode = goods.goodscode "
-sql = sql + "left join (select goodscode,isnull(sum(number*flag),0) as endnumber,isnull(sum(number*inprice*flag),0) as endmoney from s_count where [check] = 1 and adddate<='"&s_date2&"'"&s_depotname&" group by goodscode) as s_end on s_end.goodscode = goods.goodscode)"
+sql = sql + "left join (select goodscode,ifnull(sum(number*flag),0) as startnumber,ifnull(sum(number*inprice*flag),0) as startmoney from s_count where s_count.check = 1 and adddate<'"&s_date1&"'"&s_depotname&" group by goodscode) as s_start on s_start.goodscode = goods.goodscode "
+sql = sql + "left join (select goodscode,ifnull(sum(number),0) as outnumber,ifnull(sum(number*inprice),0) as outmoney from s_count where s_count.check = 1 and flag=-1 and adddate>='"&s_date1&"' and adddate<='"&s_date2&"'"&s_depotname&" group by goodscode) as s_out on s_out.goodscode = goods.goodscode "
+sql = sql + "left join (select goodscode,ifnull(sum(number),0) as innumber,ifnull(sum(number*inprice),0) as inmoney from s_count where s_count.check = 1 and flag=1 and adddate>='"&s_date1&"' and adddate<='"&s_date2&"'"&s_depotname&" group by goodscode) as s_in on s_in.goodscode = goods.goodscode "
+sql = sql + "left join (select goodscode,ifnull(sum(number*flag),0) as endnumber,ifnull(sum(number*inprice*flag),0) as endmoney from s_count where s_count.check = 1 and adddate<='"&s_date2&"'"&s_depotname&" group by goodscode) as s_end on s_end.goodscode = goods.goodscode)"
 
 call showpage(sql,"depotcount",1)
 endconnection

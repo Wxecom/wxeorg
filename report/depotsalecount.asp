@@ -126,7 +126,7 @@ If Request.Form("user") = "" Then
 Else
     s_user = " and username='"&Request.Form("user")&"'"
 End If
-sql = " select s1.depotname,isnull(innum,0) as t_innum,isnull(inmoney,0) as t_inmoney,isnull(outnum,0) as t_outnum,isnull(outmoney,0) as t_outmoney,isnull(innum-outnum,0) as t_totalnum,isnull(inmoney-outmoney,0) as t_totalmoney from(select depotname,sum(number) as innum,sum(money) as inmoney from s_billdetail where billtype='销售出库' and AddDate>='"&s_date1&"' and AddDate<='"&s_date2&"'"&s_depotname&s_username&s_goodsname&s_custname&"  group by depotname) as s1 left join (select depotname,sum(number) as outnum,sum(money) as outmoney from s_billdetail where billtype='销售退货' and AddDate>='"&s_date1&"' and AddDate<='"&s_date2&"'"&s_depotname&s_username&s_goodsname&s_custname&" group by depotname) as s2 on s1.depotname=s2.depotname"
+sql = " select s1.depotname,ifnull(innum,0) as t_innum,ifnull(inmoney,0) as t_inmoney,ifnull(outnum,0) as t_outnum,ifnull(outmoney,0) as t_outmoney,ifnull(innum-outnum,0) as t_totalnum,ifnull(inmoney-outmoney,0) as t_totalmoney from(select depotname,sum(number) as innum,sum(money) as inmoney from s_billdetail where billtype='销售出库' and AddDate>='"&s_date1&"' and AddDate<='"&s_date2&"'"&s_depotname&s_username&s_goodsname&s_custname&"  group by depotname) as s1 left join (select depotname,sum(number) as outnum,sum(money) as outmoney from s_billdetail where billtype='销售退货' and AddDate>='"&s_date1&"' and AddDate<='"&s_date2&"'"&s_depotname&s_username&s_goodsname&s_custname&" group by depotname) as s2 on s1.depotname=s2.depotname"
 
 'response.write(sql)
 call showpage(sql,"R_depotSaleCount",1)

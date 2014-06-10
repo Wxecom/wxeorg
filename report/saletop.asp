@@ -70,7 +70,7 @@ if rs_depot("RDepot")=false then
    sql = "select depotname from t_depot where 1=1"
    set rs=conn.execute(sql)
     Do While rs.eof=False
-	  s_depotpower = s_depotpower & "''" & rs("depotname") & "'',"
+	  s_depotpower = s_depotpower & "+'" & rs("depotname") & "'+,"
 	  rs.movenext
      loop 
 
@@ -78,7 +78,7 @@ else
 arr = split(rs_depot("depotname"),",")
 if ubound(arr) <> -1 then
 for i = lbound(arr) to ubound(arr)-1
-  s_depotpower = s_depotpower & "''" & arr(i) & "'',"
+  s_depotpower = s_depotpower & "+'" & arr(i) & "'+,"
 next
 end if
 end if
@@ -90,26 +90,26 @@ If Request.Form("date2")<>"" Then
     s_date2 = Request.Form("date2")
 End If
 If Request.Form("depot") = "" Then
-    s_depotname = " and depotname in ("&s_depotpower&"''a'')"
+    s_depotname = " and depotname in ("&s_depotpower&"+'a'+)"
 Else
-    s_depotname = " and depotname=''"&Request.Form("depot")&"''"
+    s_depotname = " and depotname=+'"&Request.Form("depot")&"'+"
 End If
 If Request.Form("nodename") = "" Then
     s_goodstype = ""
 Else
-    s_goodstype = " and code like ''"&Request.Form("typecode")&"%''"
+    s_goodstype = " and code like +'"&Request.Form("typecode")&"%'+"
 End If
 if Request.Form("goodsunit") = "" then
   s_goodsunit = ""
 else
-  s_goodsunit = " and goodsunit like ''%"&request.Form("goodsunit")&"%''"
+  s_goodsunit = " and goodsunit like +'%"&request.Form("goodsunit")&"%'+"
 end if
 
 
 'sql = "select * from (select goodscode,goodsname,"
-'sql = sql + "isnull(sum(number*flag*-1),0) as salenum,"
-'sql = sql + "isnull(sum(money*flag*-1),0) as salemon,"
-'sql = sql + "isnull(sum(number*(price-inprice)*flag*-1),0) as gain from s_billdetail where billtype like '销售%' and (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'"&s_depotname&s_goodstype&s_goodsunit&" group by goodscode,goodsname) as vb order by salenum desc"
+'sql = sql + "ifnull(sum(number*flag*-1),0) as salenum,"
+'sql = sql + "ifnull(sum(money*flag*-1),0) as salemon,"
+'sql = sql + "ifnull(sum(number*(price-inprice)*flag*-1),0) as gain from s_billdetail where billtype like '销售%' and (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'"&s_depotname&s_goodstype&s_goodsunit&" group by goodscode,goodsname) as vb order by salenum desc"
 
 sql = "UP_saletop @goodinfo='"&s_depotname&s_goodstype&s_goodsunit&"',@s_date1='"&s_date1&"',@s_date2='"&s_date2&"'"
 

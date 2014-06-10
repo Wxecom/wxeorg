@@ -148,7 +148,7 @@ If Request.Form("user") = "" Then
 Else
     s_user = " and username='"&Request.Form("user")&"'"
 End If
-sql = "select distinct '<a href=../product/editproduct.asp?billcode='+billcode+'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=# onClick=del('''+billcode+''')>删除</a>' as action,* from s_billdetail where diaobo=0 and billtype = '产品组装' and adddate>='"&s_date1&"' and adddate<='"&s_date2&"'" & s_depotname & s_custname & goodsname & s_user
+sql = "select distinct '<a href=../product/editproduct.asp?billcode='+billcode+'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href=# onClick=del('''+billcode+''')>删除</a>' as action,s_billdetail.* from s_billdetail where diaobo=0 and billtype = '产品组装' and adddate>='"&s_date1&"' and adddate<='"&s_date2&"'" & s_depotname & s_custname & goodsname & s_user
 
 call showpage(sql,"selectproduct",1)
 endconnection

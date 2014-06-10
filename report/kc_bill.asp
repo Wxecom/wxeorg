@@ -312,33 +312,33 @@ If Request.Form("date2")<>"" Then
     s_date2 = Request.Form("date2")
 End If
 if request.QueryString("type")="rk" then
-sql = "select '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,billcode,adddate,custname,depotname,username,memo,case when [check]=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '∆‰À˚»Îø‚'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
+sql = "select CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,billcode,adddate,custname,depotname,username,memo,case when t_bill.check=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '∆‰À˚»Îø‚'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 
 call showpage(sql,"selectother",3)
 end if
 if  request.QueryString("type")="ck" then
-sql = "select '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,billcode,adddate,custname,depotname,username,memo,case when [check]=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '∆‰À˚≥ˆø‚'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
+sql = "select CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,billcode,adddate,custname,depotname,username,memo,case when t_bill.check=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '∆‰À˚≥ˆø‚'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 
 call showpage(sql,"selectother",3)
 end if
 if  request.QueryString("type")="db" then
-sql = "select '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,billcode,adddate,custname,depotname,username,memo,case when [check]=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '≤÷ø‚µ˜≤¶'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
+sql = "select CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,billcode,adddate,custname,depotname,username,memo,case when t_bill.check=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '≤÷ø‚µ˜≤¶'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 
 call showpage(sql,"selectdiaobo",3)
 
 end if
 if  request.QueryString("type")="pd" then
-sql = "select '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,billcode,adddate,custname,depotname,username,memo,checkman,case when [check]=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = 'ø‚¥Ê≈Ãµ„'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
+sql = "select CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,billcode,adddate,custname,depotname,username,memo,checkman,case when t_bill.check=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = 'ø‚¥Ê≈Ãµ„'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 
 call showpage(sql,"selectpandian",3)
 end if
 if  request.QueryString("type")="ll" then
-sql = "select '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,billcode,adddate,custname,depotname,username,memo,case when [check]=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '¡Ï¡œ≥ˆø‚'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
+sql = "select CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,billcode,adddate,custname,depotname,username,memo,case when t_bill.check=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = '¡Ï¡œ≥ˆø‚'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 
 call showpage(sql,"selectlingliao",3)
 end if
 if  request.QueryString("type")="tl" then
-sql = "select '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,billcode,adddate,custname,depotname,username,memo,case when [check]=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = 'ÕÀ¡œ»Îø‚'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
+sql = "select CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,billcode,adddate,custname,depotname,username,memo,case when t_bill.check=1 then '<font color=#0000FF>“—…Û∫À</font>' else '<font color=#FF0000>Œ¥…Û∫À</font>' end as state,checkman from t_bill where AddDate<='"&s_date2&"' and AddDate>='"&s_date1&"' and billtype = 'ÕÀ¡œ»Îø‚'"&s_cust&sBillcode&sGoodscode&sGoodsname&sGoodsunit&sDepotname&" order by adddate desc,billcode desc"
 
 call showpage(sql,"selectlingliao",3)
 end if

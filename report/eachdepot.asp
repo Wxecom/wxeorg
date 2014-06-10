@@ -12,7 +12,7 @@
 <body style="padding:0px;margin:0px;">
 
 <%
-sql = "select t_depot.depotname,goods.goodscode,goodsname,goodsunit,units,isnull(qty,0) as qty,isnull(price,0) as price,isnull(qty*price,0) as depotamt from ( "
+sql = "select t_depot.depotname,goods.goodscode,goodsname,goodsunit,units,ifnull(qty,0) as qty,ifnull(price,0) as price,ifnull(qty*price,0) as depotamt from ( "
 sql = sql + "t_depot left join "
 sql = sql + "(select * from t_stock where goodscode = '"& Request.QueryString("goodscode") &"') as depot on depot.depotname=t_depot.depotname "
 sql = sql + "left join (select goodscode,goodsname,goodsunit,units from t_Goods where goodscode = '"& Request.QueryString("goodscode") &"') as goods on depot.goodscode = goods.goodscode)"

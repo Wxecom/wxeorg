@@ -153,7 +153,7 @@ if Request.Form("goodscode") = "" then
 else
 	s_goodscode = " and goodscode = '"& Request.Form("goodscode") &"'"
 end if
-sql = "select '<a href=# onClick=EditBill('''+billcode+''')>'+billcode+'</a>' as abillcode,number * flag as t_num,* from s_billdetail where (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user&s_goodsunit&s_billtype&s_goodscode
+sql = "select CONCAT('<a href=# onClick=EditBill(''',billcode,''')>',billcode,'</a>') as abillcode,number * flag as t_num,s_billdetail.* from s_billdetail where (AddDate)<='"&s_date2&"' and (AddDate)>='"&s_date1&"'"&s_depotname&s_custname&s_goodsname&s_user&s_goodsunit&s_billtype&s_goodscode
 'response.write(sql)
 call showpage(sql,"R_Detail",1)
 endconnection

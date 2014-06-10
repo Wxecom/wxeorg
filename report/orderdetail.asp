@@ -87,7 +87,7 @@ if Request.Form("goodsname") <> "" then
 else
 	sGoodsname = ""
 end if
-sql = "select s1.billcode,s1.goodscode,goodsname,goodsunit,units,ordernumber,isnull(finishnumber,0) as f_number,(ordernumber-finishnumber) as n_number,remark,custname from ((select billcode+goodscode as bg,billcode,goodscode,goodsname,goodsunit,units,sum(number) as ordernumber,remark,custname from s_billdetail where [check]=1 and billcode like '"&Request.QueryString("type")&"%'"&s_date1&s_date2&s_billcode&sGoodsname&" group by billcode,goodscode,goodsname,goodsunit,units,remark,custname) as s1 left join (select goodscode,planbillcode,sum(number) as finishnumber,planbillcode+goodscode as pg from s_billdetail group by planbillcode,goodscode) as s2 on s1.bg = s2.pg)"
+sql = "select s1.billcode,s1.goodscode,goodsname,goodsunit,units,ordernumber,ifnull(finishnumber,0) as f_number,(ordernumber-finishnumber) as n_number,remark,custname from ((select billcode+goodscode as bg,billcode,goodscode,goodsname,goodsunit,units,sum(number) as ordernumber,remark,custname from s_billdetail where s_billdetail.check=1 and billcode like '"&Request.QueryString("type")&"%'"&s_date1&s_date2&s_billcode&sGoodsname&" group by billcode,goodscode,goodsname,goodsunit,units,remark,custname) as s1 left join (select goodscode,planbillcode,sum(number) as finishnumber,planbillcode+goodscode as pg from s_billdetail group by planbillcode,goodscode) as s2 on s1.bg = s2.pg)"
 
 call showpage(sql,"orderdetail",1)
 endconnection

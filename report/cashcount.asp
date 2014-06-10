@@ -122,8 +122,8 @@ If Request.Form("date2")<>"" Then
     s_date2 = Request.Form("date2")
 End If
 if Request.QueryString("type") = "fk" then
-sql = "select cust.custname, isnull(cashbegin,0) - startmoneyf + startmoneys as cashbegin, isnull(cashnow, 0) as cashnow, isnull(paiednow,0) as paiednow, "
-sql = sql + "isnull(cashbegin,0) - startmoneyf + startmoneys + isnull(cashnow, 0) - isnull(paiednow,0) as cashend from "
+sql = "select cust.custname, ifnull(cashbegin,0) - startmoneyf + startmoneys as cashbegin, ifnull(cashnow, 0) as cashnow, ifnull(paiednow,0) as paiednow, "
+sql = sql + "ifnull(cashbegin,0) - startmoneyf + startmoneys + ifnull(cashnow, 0) - ifnull(paiednow,0) as cashend from "
 sql = sql + "(select custname, startmoneyf, startmoneys from t_custom where custname like '"& Request.Form("custname") &"%' and code like '"& Request.Form("typecode") &"%') as cust "
 sql = sql + "left join (select sum(wsmoney) as cashbegin, custname from s_pay where custname like '"& Request.Form("custname") &"%' and adddate <'"& s_date1 &"' group by custname) as start on start.custname = cust.custname "
 sql = sql + "left join (select sum(wsmoney) as cashnow, custname from s_pay where custname like '"& Request.Form("custname") &"%' and adddate between '"& s_date1 &"' and '"& s_date2 &"' group by custname) as cash on cash.custname = cust.custname "

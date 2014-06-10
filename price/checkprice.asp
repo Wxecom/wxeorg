@@ -4,7 +4,7 @@
 on error resume next
 conn.BeginTrans
 sBillCode = Request.QueryString("billcode")
-sql = "update t_price set [check] = 1 where billcode = '"& sBillCode &"'"
+sql = "update t_price set t_price.check = 1 where billcode = '"& sBillCode &"'"
 conn.Execute(sql)
 
 sqlprice = "select * from t_price where billcode = '"& sBillCode &"'"

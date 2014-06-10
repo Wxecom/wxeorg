@@ -51,14 +51,14 @@ for i=0 to rs.recordcount -1
 	<td><%=rs("units")%></td>
 	<td align="right"><%=rs("avgprice")%></td>
 	<%
-	sql_ult = "select isnull(sum(number),0) as totalnum from s_billdetail where inorout='出库' and flag=-1 and adddate>='"& s_date1 &"' and adddate<='"&s_date2&"' and goodscode='"&rs("goodscode")&"' and depotname='公司神木总库'"
+	sql_ult = "select ifnull(sum(number),0) as totalnum from s_billdetail where inorout='出库' and flag=-1 and adddate>='"& s_date1 &"' and adddate<='"&s_date2&"' and goodscode='"&rs("goodscode")&"' and depotname='公司神木总库'"
 		set rs_ult = server.createobject("adodb.recordset")
 		rs_ult.open sql_ult,conn,1,1	
 		response.write "<td align=right>"&rs_ult("totalnum")&"</td>"
 		rs_ult.close
 	rs_dpt.movefirst
 	for j=0 to rs_dpt.recordcount - 1
-		sql_ult = "select isnull(sum(number*flag),0) as totalnum from s_billdetail where billtype like '领料%' and adddate>='"& s_date1 &"' and adddate<='"&s_date2&"' and goodscode='"&rs("goodscode")&"' and custname='"&rs_dpt("name")&"'"
+		sql_ult = "select ifnull(sum(number*flag),0) as totalnum from s_billdetail where billtype like '领料%' and adddate>='"& s_date1 &"' and adddate<='"&s_date2&"' and goodscode='"&rs("goodscode")&"' and custname='"&rs_dpt("name")&"'"
 		set rs_ult = server.createobject("adodb.recordset")
 		rs_ult.open sql_ult,conn,1,1	
 		response.write "<td align=right>"&rs_ult("totalnum")*-1&"</td>"

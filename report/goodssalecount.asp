@@ -123,14 +123,14 @@ If Request.Form("user") = "" Then
 Else
     s_user = " and username='"&Request.Form("user")&"'"
 End If
-'sql = "select s1.goodscode,s1.goodsname,s1.goodsunit,s1.units,isnull(innum,0) as t_innum,isnull(inmoney,0) as t_inmoney,isnull(outnum,0) as t_outnum,isnull(outmoney,0) as t_outmoney,isnull(innum-outnum,0) as t_totalnum,isnull(inmoney-outmoney,0) as t_totalmoney "
+'sql = "select s1.goodscode,s1.goodsname,s1.goodsunit,s1.units,ifnull(innum,0) as t_innum,ifnull(inmoney,0) as t_inmoney,ifnull(outnum,0) as t_outnum,ifnull(outmoney,0) as t_outmoney,ifnull(innum-outnum,0) as t_totalnum,ifnull(inmoney-outmoney,0) as t_totalmoney "
 'sql = sql + "from (select goodscode,goodsname,goodsunit,units from s_billdetail where billtype like '销售%'"&s_goodsname&" group by goodscode,goodsname,goodsunit,units) as s1 left join "
 'sql = sql + "(select goodscode,goodsname,goodsunit,units,sum(number) as innum,sum(money) as inmoney from s_billdetail where billtype='销售出库' and adddate>='"&s_date1&"' and adddate<='"&s_date2&"'"&s_depotname&s_custname&s_user&" group by goodscode,goodsname,goodsunit,units ) as s2 "
 'sql = sql + "on s1.goodscode=s2.goodscode  left join "
 'sql = sql + "(select goodscode,goodsname,goodsunit,units,sum(number) as outnum,sum(money) as outmoney from s_billdetail where billtype='销售退货' and AddDate>='"&s_date1&"' and AddDate<='"&s_date2&"'"&s_depotname&s_custname&s_user&" group by goodscode,goodsname,goodsunit,units) as s3 "
 'sql = sql + "on s1.goodscode=s3.goodscode "
 
-sql = "select s1.goodscode,s1.goodsname,s1.goodsunit,s1.units,isnull(innum,0) as t_innum,isnull(inmoney,0) as t_inmoney,isnull(outnum,0) as t_outnum,isnull(outmoney,0) as t_outmoney,isnull(innum-outnum,0) as t_totalnum,isnull(inmoney-outmoney,0) as t_totalmoney from (select goodscode,goodsname,goodsunit,units,sum(number) as innum,sum(money) as inmoney from s_billdetail where billtype='销售出库' and AddDate>='"&s_date1&"' and AddDate<='"&s_date2&"'"&s_depotname&s_goodsname&s_user&s_custname&" group by goodscode,goodsname,goodsunit,units) as s1 left join(select goodscode,goodsname,goodsunit,units,sum(number) as outnum,sum(money) as outmoney from s_billdetail where billtype='销售退货' and AddDate>='"&s_date1&"' and AddDate<='"&s_date2&"'"&s_depotname&s_goodsname&s_user&s_custname&" group by goodscode,goodsname,goodsunit,units) as s2 on s1.goodscode=s2.goodscode"
+sql = "select s1.goodscode,s1.goodsname,s1.goodsunit,s1.units,ifnull(innum,0) as t_innum,ifnull(inmoney,0) as t_inmoney,ifnull(outnum,0) as t_outnum,ifnull(outmoney,0) as t_outmoney,ifnull(innum-outnum,0) as t_totalnum,ifnull(inmoney-outmoney,0) as t_totalmoney from (select goodscode,goodsname,goodsunit,units,sum(number) as innum,sum(money) as inmoney from s_billdetail where billtype='销售出库' and AddDate>='"&s_date1&"' and AddDate<='"&s_date2&"'"&s_depotname&s_goodsname&s_user&s_custname&" group by goodscode,goodsname,goodsunit,units) as s1 left join(select goodscode,goodsname,goodsunit,units,sum(number) as outnum,sum(money) as outmoney from s_billdetail where billtype='销售退货' and AddDate>='"&s_date1&"' and AddDate<='"&s_date2&"'"&s_depotname&s_goodsname&s_user&s_custname&" group by goodscode,goodsname,goodsunit,units) as s2 on s1.goodscode=s2.goodscode"
 
 call showpage(sql,"R_GoodsSaleCount",1)
 

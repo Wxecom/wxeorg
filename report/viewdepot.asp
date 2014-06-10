@@ -176,7 +176,7 @@ if Request.Form("showzero") <> "showzero" then
 else
     sShowzero = ""
 end if
-sql = "select '<a href=# onClick=detail('''+goods.goodscode+''')>显示明细</a>' as action,goods.goodscode,goods.goodsname,goods.goodsunit,goods.units,avgprice,t_num,avgprice*t_num as t_mon,goodstype from (select * from t_goods where 1=1"&s_goodsname&s_type&s_goodscode&sGoodsunit&") as goods left join (select cast((case when sum(qty) is null or sum(qty) = 0 then 0 else sum(qty*price)/sum(qty) end) as float) as avgprice,cast(sum(qty) as float) as t_num,goodscode from t_stock where 1=1"&s_depot&" group by goodscode) as s on goods.goodscode=s.goodscode where 1=1"
+sql = "select CONCAT('<a href=# onClick=detail(''',goods.goodscode,''')>显示明细</a>') as action,goods.goodscode,goods.goodsname,goods.goodsunit,goods.units,avgprice,t_num,avgprice*t_num as t_mon,goodstype from (select * from t_goods where 1=1"&s_goodsname&s_type&s_goodscode&sGoodsunit&") as goods left join (select cast((case when sum(qty) is null or sum(qty) = 0 then 0 else sum(qty*price)/sum(qty) end) as float) as avgprice,cast(sum(qty) as float) as t_num,goodscode from t_stock where 1=1"&s_depot&" group by goodscode) as s on goods.goodscode=s.goodscode where 1=1"
 
 
 %>

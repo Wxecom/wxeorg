@@ -67,11 +67,11 @@ else
 </HEAD>
 <BODY onLoad="start();"><!-- 内容区 -->
 <%
-sqlCG = "select distinct s1.billcode,custname,depotname,memo,username,adddate from ((select billcode+goodscode as bg,goodscode,sum(number) as t_num,billcode,custname,depotname,memo,username,adddate from s_billdetail where billtype = '采购订货' and [check]=1 group by billcode,goodscode,custname,depotname,memo,username,adddate) as s1 left join (select planbillcode+goodscode as pg,planbillcode,goodscode,sum(number) as t_num from s_billdetail group by planbillcode,goodscode) as s2 on s1.bg = s2.pg) where s1.t_num > s2.t_num or s2.t_num is null"
+sqlCG = "select distinct s1.billcode,custname,depotname,memo,username,adddate from ((select billcode+goodscode as bg,goodscode,sum(number) as t_num,billcode,custname,depotname,memo,username,adddate from s_billdetail where billtype = '采购订货' and s_billdetail.check=1 group by billcode,goodscode,custname,depotname,memo,username,adddate) as s1 left join (select planbillcode+goodscode as pg,planbillcode,goodscode,sum(number) as t_num from s_billdetail group by planbillcode,goodscode) as s2 on s1.bg = s2.pg) where s1.t_num > s2.t_num or s2.t_num is null"
 set rsCG = Server.CreateObject("adodb.recordset")
 rsCG.open sqlCG, conn, 1, 1
 
-sqlXS = "select distinct s1.billcode,custname,depotname,memo,username,adddate from ((select billcode+goodscode as bg,goodscode,sum(number) as t_num,billcode,custname,depotname,memo,username,adddate from s_billdetail where billtype = '销售订货' and [check]=1 group by billcode,goodscode,custname,depotname,memo,username,adddate) as s1 left join (select planbillcode+goodscode as pg,planbillcode,goodscode,sum(number) as t_num from s_billdetail group by planbillcode,goodscode) as s2 on s1.bg = s2.pg) where s1.t_num > s2.t_num or s2.t_num is null"
+sqlXS = "select distinct s1.billcode,custname,depotname,memo,username,adddate from ((select billcode+goodscode as bg,goodscode,sum(number) as t_num,billcode,custname,depotname,memo,username,adddate from s_billdetail where billtype = '销售订货' and s_billdetail.check=1 group by billcode,goodscode,custname,depotname,memo,username,adddate) as s1 left join (select planbillcode+goodscode as pg,planbillcode,goodscode,sum(number) as t_num from s_billdetail group by planbillcode,goodscode) as s2 on s1.bg = s2.pg) where s1.t_num > s2.t_num or s2.t_num is null"
 set rsXS = Server.CreateObject("adodb.recordset")
 rsXS.open sqlXS, conn, 1, 1
 
@@ -262,10 +262,6 @@ rsSK.open sqlSK, conn, 1, 1
     <td align="left"><a href="custom.asp"><img id="cust" border="0" src="../img/icon_gys_da2.gif"></a></td>
 </tr>
 </table>
-
-</BODY>
-</HTML>
-
 
 </BODY>
 </HTML>
